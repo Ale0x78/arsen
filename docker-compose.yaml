@@ -1,0 +1,21 @@
+version: "3.1"
+services:
+  worker:
+    platform: linux/amd64
+    build:
+      dockerfile: worker.Dockerfile
+    image: worker
+    depends_on:
+      - redis
+  redis:
+      image: redis:4.0.6-alpine
+      ports:
+        - "6379:6379"
+      volumes:
+          - ./redis:/redis
+  mongo:
+    image: mongo:4.4.6
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/db:/data/db:rw
